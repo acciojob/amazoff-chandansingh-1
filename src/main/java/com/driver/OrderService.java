@@ -31,7 +31,7 @@ public class OrderService {
         return orderRepository.getPartnerFromDB(partnerId);
     }
 
-    public int getOrderCount(String partnerId) {
+    public Integer getOrderCount(String partnerId) {
         return orderRepository.getNumberOfOrderByPartner(partnerId);
     }
 
@@ -43,11 +43,11 @@ public class OrderService {
         return orderRepository.getAllOrders();
     }
 
-    public int getCountUnassignedOrders() {
+    public Integer getCountUnassignedOrders() {
         return orderRepository.getCountOfUnAssignedOrder();
     }
 
-    public int getUndeliveredByTime(String time, String partnerId) {
+    public Integer getUndeliveredByTime(String time, String partnerId) {
         return orderRepository.unDeliveredOrderByTime(time, partnerId);
     }
 

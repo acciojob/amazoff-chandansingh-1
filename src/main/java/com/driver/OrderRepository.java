@@ -43,7 +43,7 @@ public class OrderRepository {
         return partners.get(partnerId);
     }
 
-    public int getNumberOfOrderByPartner(String partnerId) {
+    public Integer getNumberOfOrderByPartner(String partnerId) {
         DeliveryPartner partner = partners.get(partnerId);
         return partner.getNumberOfOrders();
     }
@@ -60,11 +60,11 @@ public class OrderRepository {
         return list;
     }
 
-    public int getCountOfUnAssignedOrder() {
+    public Integer getCountOfUnAssignedOrder() {
         return orders.size()-orderPartner.size();
     }
 
-    public int unDeliveredOrderByTime(String time, String partnerId) {
+    public Integer unDeliveredOrderByTime(String time, String partnerId) {
 
         String[] str = time.split(":");
         int hr = Integer.parseInt(str[0]);
