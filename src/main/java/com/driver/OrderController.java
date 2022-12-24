@@ -35,7 +35,7 @@ public class OrderController {
     }
 
     @PutMapping("/add-order-partner-pair")
-    public ResponseEntity<String> addOrderPartnerPair(@RequestParam String orderId, @RequestParam String partnerId){
+    public ResponseEntity<String> addOrderPartnerPair(@RequestParam("oId") String orderId, @RequestParam("pId") String partnerId){
 
         //This is basically assigning that order to that partnerId
         orderService.addOrderToPartner(orderId, partnerId);

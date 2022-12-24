@@ -85,7 +85,7 @@ public class OrderRepository {
     public String getLastDeliveredTimeByPartner(String partnerId) {
         List<String> list = deliveryOrder.get(partnerId);
         int time = Integer.MIN_VALUE;
-        for(String orderId : deliveryOrder.get(partnerId)) {
+        for(String orderId : list) {
             Order order = orders.get(orderId);
             time = Math.max(time, order.getDeliveryTime());
         }
@@ -105,16 +105,22 @@ public class OrderRepository {
     }
 
     public void deleteOrderAndUnassignedTheirPartner(String orderId) {
-        String partnerId = orderPartner.get(orderId);
-        for(String getOrder : deliveryOrder.get(partnerId)) {
-            if(orderId.equals(getOrder))
-                deliveryOrder.get(partnerId).remove(getOrder);
+        if(orderPartner.containsKey(orderId)) {
+            String partnerId = orderPartner.get(orderId);
+            for (String getOrder : deliveryOrder.get(partnerId)) {
+                if (orderId.equals(getOrder)) {
+                    deliveryOrder.get(partnerId).remove(getOrder);
+                    break;
+                }
+            }
+
+            DeliveryPartner partner = partners.get(partnerId);
+            int numOfOrders = partner.getNumberOfOrders();
+            partner.setNumberOfOrders(numOfOrders - 1);
+
+            orderPartner.remove(orderId);
         }
         orders.remove(orderId);
-        orderPartner.remove(orderId);
 
-        DeliveryPartner partner = partners.get(partnerId);
-        int numOfOrders = partner.getNumberOfOrders();
-        partner.setNumberOfOrders(numOfOrders-1);
     }
 }
