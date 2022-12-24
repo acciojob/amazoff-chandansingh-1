@@ -64,10 +64,23 @@ public class OrderRepository {
         return orders.size()-orderPartner.size();
     }
 
+    public int unDeliveredOrderByTime(String time, String partnerId) {
 
+        String[] str = time.split(":");
+        int hr = Integer.parseInt(str[0]);
+        int min = Integer.parseInt(str[1]);
+        int totalTime = (60*hr)+min;
 
+        int count = 0;
 
+        for(String orderId : deliveryOrder.get(partnerId)) {
+            Order order = orders.get(orderId);
+            if(totalTime < order.getDeliveryTime())
+                count++;
+        }
 
+        return count;
+    }
 
     public String getLastDeliveredTimeByPartner(String partnerId) {
         List<String> list = deliveryOrder.get(partnerId);

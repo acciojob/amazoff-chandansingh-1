@@ -47,7 +47,9 @@ public class OrderService {
         return orderRepository.getCountOfUnAssignedOrder();
     }
 
-
+    public int getUndeliveredByTime(String time, String partnerId) {
+        return orderRepository.unDeliveredOrderByTime(time, partnerId);
+    }
 
 
     public String lastDeliveryTimeByPartner(String partnerId) {

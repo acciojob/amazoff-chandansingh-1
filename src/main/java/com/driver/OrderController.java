@@ -105,7 +105,7 @@ public class OrderController {
         Integer countOfOrders = 0;
 
         //countOfOrders that are left after a particular time of a DeliveryPartner
-
+        countOfOrders = orderService.getUndeliveredByTime(time, partnerId);
         return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
     }
 
