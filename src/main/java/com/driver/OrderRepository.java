@@ -24,6 +24,10 @@ public class OrderRepository {
     }
 
     public void assignOrderToPartner(String orderId, String partnerId) {
+
+        if(!orders.containsKey(orderId) || !partners.containsKey(partnerId))
+            return;
+
         if(!deliveryOrder.containsKey(partnerId)){
             deliveryOrder.put(partnerId, new ArrayList<>());
         }
@@ -33,27 +37,38 @@ public class OrderRepository {
         DeliveryPartner partner = partners.get(partnerId);
         int numOfOrders = partner.getNumberOfOrders();
         partner.setNumberOfOrders(numOfOrders+1);
+
     }
 
     public Order getOrderFromDB(String orderId) {
+        if(!orders.containsKey(orderId)) return null;
+
         return orders.get(orderId);
     }
 
     public DeliveryPartner getPartnerFromDB(String partnerId) {
+        if(!partners.containsKey(partnerId))
+            return null;
+
         return partners.get(partnerId);
     }
 
     public Integer getNumberOfOrderByPartner(String partnerId) {
+
         DeliveryPartner partner = partners.get(partnerId);
         return partner.getNumberOfOrders();
     }
 
     public List<String> getAllOrdersByPartner(String partnerId) {
+
         return deliveryOrder.get(partnerId);
     }
 
     public List<String> getAllOrders() {
         List<String> list = new ArrayList<>();
+        if(orders.size() == 0)
+            return list;
+
         for(String orderId : orders.keySet()) {
             list.add(orderId);
         }
@@ -65,6 +80,9 @@ public class OrderRepository {
     }
 
     public Integer unDeliveredOrderByTime(String time, String partnerId) {
+
+        if(!partners.containsKey(partnerId) || !deliveryOrder.containsKey(partnerId))
+            return 0;
 
         String[] str = time.split(":");
         int hr = Integer.parseInt(str[0]);
@@ -83,6 +101,10 @@ public class OrderRepository {
     }
 
     public String getLastDeliveredTimeByPartner(String partnerId) {
+
+        if(!partners.containsKey(partnerId) || !deliveryOrder.containsKey(partnerId))
+            return null;
+
         List<String> list = deliveryOrder.get(partnerId);
         int time = Integer.MIN_VALUE;
         for(String orderId : list) {
@@ -97,6 +119,9 @@ public class OrderRepository {
     }
 
     public void deletePartnerAndUnassignedTheirOrders(String partnerId) {
+        if(!partners.containsKey(partnerId) || !deliveryOrder.containsKey(partnerId))
+            return;
+
         for(String orderId : deliveryOrder.get(partnerId)) {
             orderPartner.remove(orderId);
         }
@@ -120,7 +145,8 @@ public class OrderRepository {
 
             orderPartner.remove(orderId);
         }
-        orders.remove(orderId);
+        if(orders.containsKey(orderId))
+            orders.remove(orderId);
 
     }
 }
